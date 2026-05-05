@@ -17,7 +17,7 @@ namespace ProductApi.Controllers
         [HttpGet]
         public ActionResult<List<Product>> Get()
         {
-            return Ok(products);
+            return Ok(products); //new comment
         }
 
        
