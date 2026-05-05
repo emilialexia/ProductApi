@@ -1,3 +1,8 @@
+using ProductApi.Core.Data;
+using ProductApi.Core.Repositories;
+using ProductApi.Core.Services;
+using Microsoft.EntityFrameworkCore;
+
 namespace ProductApi
 {
     public class Program
@@ -6,11 +11,32 @@ namespace ProductApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Add DbContext configuration
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                ?? "Server=localhost\\SQLEXPRESS;Database=ProductDb;Trusted_Connection=true;TrustServerCertificate=true;";
+
+            builder.Services.AddDbContext<ProductDbContext>(options =>
+                options.UseSqlServer(connectionString, b => b.MigrationsAssembly("ProductApi"))
+            );
+
+            // Register repository
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+            // Register service
+            builder.Services.AddScoped<IProductService, ProductService>();
+
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+
+            // Apply migrations automatically (optional, for development)
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ProductDbContext>();
+                dbContext.Database.Migrate();
+            }
 
             app.UseSwagger();
             app.UseSwaggerUI();
