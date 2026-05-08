@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using ProductApi.Core.Entities;
+using ProductApi.Core.Data.Configuration;
 using ProductApi.Core.Data.Configurations;
+using ProductApi.Core.Entities;
 
 namespace ProductApi.Core.Data
 {
@@ -11,12 +12,14 @@ namespace ProductApi.Core.Data
         }
 
         public DbSet<ProductEntity> Products { get; set; }
+        public DbSet<EmployeeEntity> Employees { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new ProductEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new EmployeeEntityConfiguration());
         }
     }
 }

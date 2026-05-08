@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ProductApi.Core.Entities
+﻿namespace ProductApi.Models.Requests
 {
-    public class EmployeeEntity
+    public class AddEmployeeRequest
     {
         public Guid Id { get; set; }
 
@@ -15,10 +11,5 @@ namespace ProductApi.Core.Entities
         public string Position { get; set; } = string.Empty;
 
         public double Salary { get; set; }
-
-        public DateTime CreatedAt { get; set; }
-
-        public DateTime UpdatedAt { get; set; }
-
     }
 }
