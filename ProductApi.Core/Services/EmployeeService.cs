@@ -50,6 +50,11 @@ namespace ProductApi.Core.Services
             return await _employeeRepository.GetEmployeesByPositionAsync(position);
         }
 
+        public async Task<EmployeeEntity?> HighestSalaryEmployeeAsync()
+        {
+            return await _employeeRepository.HighestSalaryEmployeeAsync();
+        }
+
         public async Task<EmployeeEntity> UpdateEmployeeAsync(Guid id, string firstName, string lastName, string position, double salary)
         {
             var employee = await _employeeRepository.GetByIdAsync(id);

@@ -21,6 +21,8 @@ namespace ProductApi.Core.Services
 
         Task<List<EmployeeEntity>> GetEmployeesByPositionAsync(string position);
 
+        Task<EmployeeEntity?> HighestSalaryEmployeeAsync();
+ 
         Task<bool> DeleteEmployeeAsync(Guid id);
     }
 }

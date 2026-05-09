@@ -12,6 +12,7 @@ namespace ProductApi.Core.Repositories
         Task<EmployeeEntity> AddAsync(EmployeeEntity employee);
         Task<EmployeeEntity> UpdateAsync(EmployeeEntity employee);
         Task<List<EmployeeEntity>> GetEmployeesByPositionAsync(string position);
+        Task<EmployeeEntity?> HighestSalaryEmployeeAsync();
         Task<bool> DeleteAsync(Guid id);
         Task<int> SaveChangesAsync();
     }

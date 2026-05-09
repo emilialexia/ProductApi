@@ -51,6 +51,12 @@ namespace ProductApi.Core.Repositories
                 .ToListAsync();
         }
 
+        public async Task<EmployeeEntity?> HighestSalaryEmployeeAsync()
+        {
+            return await _dbContext.Employees.OrderByDescending(e => e.Salary).FirstOrDefaultAsync();
+
+        }
+
         public async Task<bool> DeleteAsync(Guid id)
         {
             var employee = await _dbContext.Employees.FirstOrDefaultAsync(e => e.Id == id);

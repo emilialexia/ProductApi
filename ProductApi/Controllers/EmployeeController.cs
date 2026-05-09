@@ -62,7 +62,13 @@ namespace ProductApi.Controllers
         [HttpGet("position/{position}")]
         public async Task<ActionResult<GetEmployeesByPositionResponse>> GetByPosition(string position)
         {
+            if (string.IsNullOrWhiteSpace(position))
+                return BadRequest("Position cannot be empty");
+
             var employees = await _employeeService.GetEmployeesByPositionAsync(position);
+
+            if (employees?.Count == 0)  
+                return NotFound("No employees found for the specified position");
 
             var response = new GetEmployeesByPositionResponse
             {
@@ -78,6 +84,29 @@ namespace ProductApi.Controllers
 
             return Ok(response);
         }
+
+        //GET: api/employee/highest-paid
+        [HttpGet("highest-paid")]
+        public async Task<ActionResult<HighestSalaryEmployeeResponse>> HighestPaid()
+        {
+            var employee = await _employeeService.HighestSalaryEmployeeAsync();
+
+            if (employee == null)
+                return NotFound("No employees found");
+
+            var response = new HighestSalaryEmployeeResponse
+            {
+                Id = employee.Id,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                Position = employee.Position,
+                Salary = employee.Salary
+            };
+
+            return Ok(response);
+
+        }
+
 
         // POST: api/employee
         [HttpPost]
