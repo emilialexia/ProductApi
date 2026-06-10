@@ -2,6 +2,8 @@ using ProductApi.Core.Data;
 using ProductApi.Core.Repositories;
 using ProductApi.Core.Services;
 using Microsoft.EntityFrameworkCore;
+using ProductApi.Core.Repositories;
+using ProductApi.Core.Services;
 
 namespace ProductApi
 {
@@ -17,6 +19,7 @@ namespace ProductApi
 
             builder.Services.AddDbContext<ProductDbContext>(options =>
                 options.UseSqlServer(connectionString, b => b.MigrationsAssembly("ProductApi"))
+                    .ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning))
             );
 
             // Register repository
@@ -24,6 +27,10 @@ namespace ProductApi
 
             // Register service
             builder.Services.AddScoped<IProductService, ProductService>();
+
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
